@@ -1,0 +1,9 @@
+#ignore all
+/*
+#include next
+!*.c
+!*.h
+!*.uir
+!*.prj
+!.gitignore
+*~*.*
