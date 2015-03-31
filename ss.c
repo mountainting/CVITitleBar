@@ -5,7 +5,7 @@
 #include "ss.h"
 
 static int panelHandle;
-
+double sinePattern[1024] = {0.0};
 int main (int argc, char *argv[])
 {
 	if (InitCVIRTE (0, argv, 0) == 0)
@@ -21,23 +21,12 @@ int main (int argc, char *argv[])
 int CVICALLBACK sinGe (int panel, int control, int event,
 		void *callbackData, int eventData1, int eventData2)
 {
-	double sinePattern[4096] = {0.0};
-	FILE *Res = NULL;
-	char strTemp[8] = {'\0'};
-	int i = 0;
 	switch (event)
 	{
 		case EVENT_COMMIT:
-			SinePattern (4096, 2.5, 0.0, 1, sinePattern);
-			PlotY(panelHandle, PANEL_GRAPH, sinePattern, 4096, VAL_DOUBLE, VAL_THIN_LINE,
+			SinePattern (1024, 2.5, 0.0, 10, sinePattern);
+			PlotY(panelHandle, PANEL_GRAPH, sinePattern, 1024, VAL_DOUBLE, VAL_THIN_LINE,
 				VAL_EMPTY_SQUARE, VAL_SOLID, 1, VAL_RED);
-			Res = fopen("result.txt", "w");
-			for (i = 0; i < 4096; i++)
-			{
-				sprintf(strTemp, "%.2f\n", sinePattern[i]);
-				fwrite(strTemp, sizeof(char), strlen(strTemp), Res);
-			}
-			fclose(Res);
 			break;
 	}
 	return 0;
@@ -73,6 +62,39 @@ int CVICALLBACK panelCB (int panel, int event, void *callbackData,
 				QuitUserInterface (0);  
 			}
 
+			break;
+	}
+	return 0;
+}
+
+int CVICALLBACK saveData (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	FILE *Res = NULL;
+	char strTemp[8] = {'\0'};
+	int i = 0; 
+	switch (event)
+	{
+		case EVENT_COMMIT:
+			Res = fopen("result.txt", "w");
+			for (i = 0; i < 1024; i++)
+			{
+				sprintf(strTemp, "%.2f\n", sinePattern[i]);
+				fwrite(strTemp, sizeof(char), strlen(strTemp), Res);
+			}
+			fclose(Res);
+			break;
+	}
+	return 0;
+}
+
+int CVICALLBACK clearWave (int panel, int control, int event,
+		void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+			DeleteGraphPlot(panelHandle, PANEL_GRAPH, -1, VAL_IMMEDIATE_DRAW);
 			break;
 	}
 	return 0;

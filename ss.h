@@ -19,9 +19,10 @@
 #define  PANEL_BINARYSWITCH               3       /* control type: binary, callback function: (none) */
 #define  PANEL_BINARYSWITCH_2             4       /* control type: binary, callback function: (none) */
 #define  PANEL_COMMANDBUTTON              5       /* control type: command, callback function: sinGe */
-#define  PANEL_COMMANDBUTTON_2            6       /* control type: command, callback function: (none) */
-#define  PANEL_PICTURE                    7       /* control type: picture, callback function: (none) */
-#define  PANEL_QUIT                       8       /* control type: command, callback function: quitCB */
+#define  PANEL_COMMANDBUTTON_3            6       /* control type: command, callback function: saveData */
+#define  PANEL_COMMANDBUTTON_2            7       /* control type: command, callback function: clearWave */
+#define  PANEL_PICTURE                    8       /* control type: picture, callback function: (none) */
+#define  PANEL_QUIT                       9       /* control type: command, callback function: quitCB */
 
 
      /* Control Arrays: */
@@ -36,8 +37,10 @@
 
      /* Callback Prototypes: */
 
+int  CVICALLBACK clearWave(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK panelCB(int panel, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK quitCB(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK saveData(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK sinGe(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 
 
